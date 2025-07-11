@@ -1,0 +1,115 @@
+✅ FINALIZED PROJECT PROMPT FOR REPLIT AI
+________________________________________
+🎯 Project Name: JustPlay
+Goal: A fast, modern, mobile-friendly Nigerian music website like 9jaLoaded, where users can stream, browse, and download songs — with all media (audio and images) stored securely in Supabase. No logins. No APIs. No frameworks.
+________________________________________
+✅ Build Me a Static Music Website
+Use only:
+•	HTML
+•	CSS (vanilla or Tailwind)
+•	JavaScript (no frameworks)
+Storage:
+•	Supabase (for audio and image hosting)
+•	GitHub (for deploying the site via GitHub Pages)
+________________________________________
+✅ Features to Build
+•	🎵 Song cards with:
+o	Cover image
+o	Title, Artist
+o	Play & Download buttons
+o	Favorite toggle (❤️) stored via localStorage
+•	📂 Sections (Pages):
+o	Home
+o	Browse
+o	Trending
+o	Artists
+o	Playlists
+o	Favorites
+o	Submit (static form)
+•	🔎 Search bar for song title, artist, genre, mood
+•	🎧 Play music inline using <audio> per song (no global sticky player)
+•	💾 Download button triggers .mp3 download
+•	✅ Fully client-side app, no backend
+________________________________________
+✅ Supabase Media Integration
+🔊 AUDIO FILES
+•	Stored in Supabase under private bucket songs
+•	Do not expose direct .mp3 links
+•	Use signed URL on play:
+const { data } = await supabase
+  .storage
+  .from('songs')
+  .createSignedUrl('rema-calm-down.mp3', 60);
+Assign data.signedUrl to an <audio> element's .src
+________________________________________
+🖼️ IMAGE FILES (cover art)
+Option A (RECOMMENDED):
+•	Use a public bucket (e.g. images)
+•	Each cover image is hosted via public Supabase URL:
+•	https://<project-id>.supabase.co/storage/v1/object/public/images/fireboy.jpg
+•	Use directly in <img src="...">
+Option B (Secure):
+•	Use a private bucket
+•	For each image, generate a signed URL like:
+const { data } = await supabase
+  .storage
+  .from('images')
+  .createSignedUrl('fireboy.jpg', 60);
+
+imgElement.src = data.signedUrl;
+________________________________________
+✅ File Structure
+/
+├── index.html
+├── data.js              // Contains all music track objects
+├── app.js               // Main rendering + event logic
+├── search.js            // Filters tracks
+├── storage.js           // localStorage for favorites
+├── waveform.js          // Optional waveform rendering
+├── styles/
+│   ├── main.css
+│   ├── animations.css
+│   └── components.css
+├── assets/
+│   └── images/ (optional if using Supabase)
+________________________________________
+✅ Example musicData Entry (in data.js)
+{
+  id: '1',
+  title: 'Calm Down',
+  artist: 'Rema',
+  album: 'Rave & Roses',
+  genre: 'Afrobeats',
+  mood: 'Chill',
+  duration: 215,
+  featured: true,
+  trending: true,
+  audioFile: 'rema-calm-down.mp3', // Must exist in Supabase 'songs'
+  audioUrl: null,                  // Fetched securely
+  coverImage: 'https://your-project.supabase.co/storage/v1/object/public/images/rema.jpg',
+  playCount: 2847,
+  downloadCount: 394,
+  releaseDate: '2023-06-15'
+}
+________________________________________
+✅ Deployment Notes
+•	Host the site via GitHub Pages
+•	Make sure relative file paths are correct
+•	Do not include audio/image files in GitHub — only stored in Supabase
+________________________________________
+🚫 Avoid
+•	React / Vue / Next.js
+•	Firebase or external APIs
+•	User login/signup
+•	Any server or backend logic
+________________________________________
+✅ Deliverable
+A working, mobile-friendly static music website that:
+•	Streams .mp3 files securely from Supabase
+•	Shows cover images from Supabase
+•	Allows browsing, searching, favoriting, and downloading
+•	Is hosted fully on GitHub Pages
+________________________________________
+📦 Ready to paste this into Replit AI or give it to any developer!
+Would you like this exported as a .txt, .md, or .pdf file?
+

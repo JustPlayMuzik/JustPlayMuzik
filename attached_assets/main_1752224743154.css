@@ -1,0 +1,531 @@
+/* CSS Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary-color: #ec4899;
+    --background-color: #0f0f23;
+    --surface-color: #1a1a3a;
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --border-color: #374151;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2);
+    --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.3);
+    --border-radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Header */
+.header {
+    background: rgba(26, 26, 58, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.logo h1 {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.logo .tagline {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: -0.25rem;
+}
+
+/* Navigation */
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--text-primary);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 50%;
+}
+
+/* Search */
+.search-container {
+    position: relative;
+    min-width: 300px;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: var(--transition);
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    z-index: 2;
+}
+
+/* Main Content */
+.main {
+    margin-top: 5rem;
+    padding: 2rem 0 8rem;
+}
+
+.section {
+    display: none;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.section.active {
+    display: block;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius);
+    margin-bottom: 3rem;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Grid Layouts */
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.genre-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Section Headers */
+.section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 3rem 0 1rem;
+    color: var(--text-primary);
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+    
+    .header .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-list {
+        gap: 1rem;
+    }
+    
+    .search-container {
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0.75rem 0;
+    }
+    
+    .header .container {
+        padding: 0 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.75rem;
+    }
+    
+    .logo .tagline {
+        font-size: 0.7rem;
+    }
+    
+    .nav-list {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+        border-radius: 20px;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .search-container {
+        width: 100%;
+        max-width: 300px;
+        min-width: unset;
+    }
+    
+    .search-box input {
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .search-icon {
+        left: 0.75rem;
+    }
+    
+    .main {
+        margin-top: 7rem;
+        padding: 1.5rem 0 9rem;
+    }
+    
+    .hero {
+        padding: 2.5rem 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .section h2 {
+        font-size: 2rem;
+    }
+    
+    .section h3 {
+        font-size: 1.25rem;
+        margin: 2rem 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.75rem;
+    }
+    
+    .header .container {
+        padding: 0 0.75rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .logo .tagline {
+        font-size: 0.65rem;
+    }
+    
+    .nav-link {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+        min-width: 55px;
+    }
+    
+    .search-container {
+        max-width: 280px;
+    }
+    
+    .search-box input {
+        padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+        font-size: 0.8rem;
+    }
+    
+    .search-icon {
+        left: 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .main {
+        margin-top: 8rem;
+        padding: 1rem 0 10rem;
+    }
+    
+    .hero {
+        padding: 1.5rem 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.75rem;
+    }
+    
+    .hero p {
+        font-size: 0.9rem;
+    }
+    
+    .music-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .genre-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .section h2 {
+        font-size: 1.75rem;
+    }
+    
+    .section h3 {
+        font-size: 1.1rem;
+        margin: 1.5rem 0 0.75rem;
+    }
+    
+    /* Better mobile touch targets */
+    .music-card .actions {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .music-card .actions .btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px;
+    }
+    
+    /* Mobile-friendly navigation */
+    .nav-item {
+        padding: 1rem;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Larger touch targets for player controls */
+    .player-controls .control-btn {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 12px;
+    }
+    
+    /* Mobile submit form improvements */
+    .submit-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .submit-form input,
+    .submit-form textarea,
+    .submit-form select {
+        min-height: 48px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 12px 16px;
+    }
+    
+    .file-upload {
+        min-height: 120px;
+        padding: 2rem 1rem;
+    }
+    
+    /* Mobile search improvements */
+    .search-bar input {
+        font-size: 16px;
+        min-height: 48px;
+        padding: 12px 48px 12px 16px;
+    }
+    
+    .search-suggestions {
+        top: 56px;
+    }
+    
+    /* Better mobile spacing */
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .section {
+        margin-bottom: 2rem;
+    }
+    
+    /* Mobile player bar adjustments */
+    .player-bar {
+        padding: 1rem;
+        min-height: 80px;
+    }
+    
+    .player-info {
+        flex: 1;
+        min-width: 0; /* Allow text truncation */
+    }
+    
+    .player-info h4 {
+        font-size: 0.9rem;
+        margin: 0 0 0.25rem 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .player-info p {
+        font-size: 0.8rem;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}

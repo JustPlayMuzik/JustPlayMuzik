@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JustPlay - Discover, browse, and play amazing music. Submit your own tracks and explore curated playlists.">
+    <meta name="keywords" content="music, discovery, streaming, playlists, songs, artists">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <title>JustPlay - Music Discovery Platform</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>JustPlay</h1>
+                <span class="tagline">Discover Your Sound</span>
+            </div>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                    <li><a href="#browse" class="nav-link" data-section="browse">Browse</a></li>
+                    <li><a href="#trending" class="nav-link" data-section="trending">Trending</a></li>
+                    <li><a href="#artists" class="nav-link" data-section="artists">Artists</a></li>
+                    <li><a href="#playlists" class="nav-link" data-section="playlists">Playlists</a></li>
+                    <li><a href="#favorites" class="nav-link" data-section="favorites">Favorites</a></li>
+                    <li><a href="#submit" class="nav-link" data-section="submit">Submit Song</a></li>
+                </ul>
+            </nav>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search songs, artists, genres..." autocomplete="off">
+                    <div id="searchSuggestions" class="search-suggestions"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="hero">
+                    <h2>Discover Amazing Music</h2>
+                    <p>Explore curated playlists, trending tracks, and discover your next favorite song</p>
+                </div>
+
+                <div class="featured-section">
+                    <h3>Featured Today</h3>
+                    <div class="music-grid" id="featuredMusic"></div>
+                </div>
+
+                <div class="genres-section">
+                    <h3>Browse by Genre</h3>
+                    <div class="genre-grid" id="genreGrid"></div>
+                </div>
+            </section>
+
+            <!-- Browse Section -->
+            <section id="browse" class="section">
+                <div class="browse-filters">
+                    <h2>Browse Music</h2>
+                    <div class="filter-controls">
+                        <select id="genreFilter" class="filter-select">
+                            <option value="">All Genres</option>
+                        </select>
+                        <select id="moodFilter" class="filter-select">
+                            <option value="">All Moods</option>
+                        </select>
+                        <select id="sortFilter" class="filter-select">
+                            <option value="title">Sort by Title</option>
+                            <option value="artist">Sort by Artist</option>
+                            <option value="duration">Sort by Duration</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="music-grid" id="browseMusic"></div>
+            </section>
+
+            <!-- Trending Section -->
+            <section id="trending" class="section">
+                <h2>Trending Now</h2>
+                <div class="trending-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-fire"></i>
+                        <span class="stat-number" id="trendingCount">0</span>
+                        <span class="stat-label">Hot Tracks</span>
+                    </div>
+                </div>
+                <div class="music-grid" id="trendingMusic"></div>
+            </section>
+
+            <!-- Artists Section -->
+            <section id="artists" class="section">
+                <h2>Artists</h2>
+                
+                <div class="trending-section">
+                    <h3>Trending Artists</h3>
+                    <p class="section-description">Based on Plays</p>
+                    <div class="artist-grid" id="trendingArtists"></div>
+                </div>
+                
+                <div class="all-artists-section">
+                    <h3>All Artists</h3>
+                    <div class="artist-grid" id="allArtists"></div>
+                </div>
+            </section>
+
+            <!-- Artist Detail Section (Dynamic) -->
+            <section id="artist-detail" class="section">
+                <div class="artist-profile" id="artistProfile"></div>
+                <div class="artist-songs">
+                    <h3>Songs</h3>
+                    <div class="music-grid" id="artistSongs"></div>
+                </div>
+            </section>
+
+            <!-- Playlists Section -->
+            <section id="playlists" class="section">
+                <div class="playlist-header">
+                    <h2>My Playlists</h2>
+                    <button class="btn btn-primary" id="createPlaylistBtn">
+                        <i class="fas fa-plus"></i> Create Playlist
+                    </button>
+                </div>
+                <div class="playlist-grid" id="playlistGrid"></div>
+                
+                <!-- Create Playlist Modal -->
+                <div id="playlistModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Create New Playlist</h3>
+                            <button class="modal-close" id="closePlaylistModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="playlistName" placeholder="Playlist name" class="modal-input">
+                            <textarea id="playlistDescription" placeholder="Description (optional)" class="modal-textarea"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" id="cancelPlaylist">Cancel</button>
+                            <button class="btn btn-primary" id="savePlaylist">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Favorites Section -->
+            <section id="favorites" class="section">
+                <h2>Your Favorites</h2>
+                <div class="music-grid" id="favoritesMusic"></div>
+                <div class="empty-state" id="emptyFavorites" style="display: none;">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>No favorites yet</h3>
+                    <p>Start exploring and add songs to your favorites!</p>
+                </div>
+            </section>
+
+            <!-- Submit Song Section -->
+            <section id="submit" class="section">
+                <div class="submit-header">
+                    <h2>Submit Your Music</h2>
+                    <p>Share your amazing tracks with the world</p>
+                </div>
+                
+                <div class="submit-form-container">
+                    <form class="submit-form" id="submitForm">
+                        <div class="form-group">
+                            <label for="songTitle">Song Title *</label>
+                            <input type="text" id="songTitle" name="songTitle" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="artistName">Artist Name *</label>
+                            <input type="text" id="artistName" name="artistName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="albumName">Album Name</label>
+                            <input type="text" id="albumName" name="albumName">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="songGenre">Genre *</label>
+                                <select id="songGenre" name="songGenre" required>
+                                    <option value="">Select Genre</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="songMood">Mood</label>
+                                <select id="songMood" name="songMood">
+                                    <option value="">Select Mood</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="songDescription">Description</label>
+                            <textarea id="songDescription" name="songDescription" rows="4" placeholder="Tell us about your song..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="audioFile">Audio File *</label>
+                            <div class="file-upload">
+                                <input type="file" id="audioFile" name="audioFile" accept="audio/*" required>
+                                <div class="file-upload-display">
+                                    <i class="fas fa-music"></i>
+                                    <span>Choose audio file or drag & drop</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="artworkFile">Album Artwork</label>
+                            <div class="file-upload">
+                                <input type="file" id="artworkFile" name="artworkFile" accept="image/*">
+                                <div class="file-upload-display">
+                                    <i class="fas fa-image"></i>
+                                    <span>Choose image file or drag & drop</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-upload"></i> Submit Song
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+
+    <!-- Audio Element -->
+    <audio id="audioElement" preload="metadata"></audio>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+
+
+
+    <script>
+  const supabase = supabase.createClient(
+    'https://iomdmhpiscyqtuudojmm.supabase.co', 
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvbWRtaHBpc2N5cXR1dWRvam1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxODE2MTAsImV4cCI6MjA2Nzc1NzYxMH0.Pl3PnPzXhl1fIJTDc3YA8eR0d_Y607QJ0IJSz8hiFgw' 
+  );
+</script>
+
+<script>
+  async function playSong(filename, buttonEl) {
+    const audio = buttonEl.parentElement.querySelector("audio");
+
+    if (!audio.src || audio.src.indexOf("supabase.co") === -1) {
+      const { data, error } = await supabase
+        .storage
+        .from('songs')
+        .createSignedUrl(filename, 60);
+
+      if (error || !data?.signedUrl) {
+        alert("Failed to get audio.");
+        return;
+      }
+
+      audio.src = data.signedUrl;
+    }
+
+    audio.style.display = "block";
+    audio.play();
+  }
+</script>
+
+
+</body>
+</html>
